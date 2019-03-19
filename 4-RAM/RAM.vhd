@@ -55,13 +55,13 @@ begin
         if(W'event and W='1')then
             RAM_Memory(to_integer(unsigned(A))) <= D;
         end if;
-    end process write;
+    end process Write;
     RAM_Memory(0) <= MH;
     RAM_Memory(1) <= ML;
-    D0 <=  RAM_Memory(2);
-    D0 <=  RAM_Memory(3);
-    D0 <=  RAM_Memory(4);
-    D0 <=  RAM_Memory(5);
+    D0 <=  RAM_Memory(2); -- los 7 menos significativos 
+    D1 <=  RAM_Memory(3);
+    D2 <=  RAM_Memory(4);
+    D3 <=  RAM_Memory(5);
     L  <=  RAM_Memory(6);
     RAM_Memory(7) <= SW;
 End Generic_Array;
