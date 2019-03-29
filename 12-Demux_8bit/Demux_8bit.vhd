@@ -16,7 +16,9 @@ Begin
     begin
         if(SD8 = '1') then
             AR <= R;
+            BW <= (others => 'Z');
         else
+            AR <= (others => 'Z');
             BW <= R;
         end if;
     end process;
