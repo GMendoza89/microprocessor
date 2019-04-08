@@ -11,9 +11,9 @@ End Mux_8bit;
 
 Architecture Behavioral of Mux_8bit is
 Begin
-    process(SM8)
+    process(SM8,AR,AI)
     begin
-        if(SM8 = '1') then
+        if(SM8 = '0') then
             A <= AR;
         else
             A <= AI;
