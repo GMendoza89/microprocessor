@@ -11,7 +11,7 @@ End Mux_9bit;
 
 Architecture Behavioral of Mux_9bit is
 Begin
-    process(SM9)
+    process(SM9,Pk,IK)
     begin
         if(SM9 = '1') then
             K <= PK;
