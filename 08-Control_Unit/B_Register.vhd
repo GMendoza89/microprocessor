@@ -4,7 +4,7 @@ USE IEEE.numeric_std.all;
 Entity B_Register is
 	generic(n: integer := 8);	
 	port(
-	RST,CLK: in  std_logic;
+	RST,CLK,G: in  std_logic;
 	DIN    : in  std_logic_vector(n-1 downto 0);
 	OPC    : in  std_logic_vector(1 downto 0);
     SelB   : in  std_logic_vector(2 downto 0);
@@ -17,9 +17,18 @@ signal Qp,Qn : std_logic_vector(n-1 downto 0);
 Signal HBP,HBN   : std_logic;
 Begin
     
-    Dout <= Qp;
+    
     DBout <= HBP;
-
+	Control:Process(G, Qp)
+	begin
+		if(G = '0') then
+			Dout <= Qp;
+		else
+			Dout <= (others => '0');
+		end if;
+	end Process Control;
+		
+			
 	Combinational: process (Qp,OPC,DIN,SelB)
 	begin
 		case OPC is

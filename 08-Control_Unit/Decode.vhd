@@ -6,7 +6,7 @@ Entity Decode is
     CLK    : in  std_logic;                       -- Relog Maestro
     RST    : in  std_logic;                       -- Reset Maestro
     M      : in  std_logic_vector(16 downto 0);   -- Entrada de Trama de la ROM
-    Enc    : in  std_logic;                       -- Habilitacion de Decodificacion
+    EnC    : in  std_logic;                       -- Habilitacion de Decodificacion
     SDM8   : out std_logic;                       -- Seleccionador entre guardar en W o En memoria RAM DEMUX 8 Bits
     DataKi : out std_logic_vector(8 downto 0);    -- Direccion de Contador de Programa
     Data   : out std_logic_vector(7 downto 0);    -- Direccion de Memoria o literal
