@@ -34,7 +34,7 @@ clc
 NumberLn = 0;
 d = zeros(512,17);
 d = char(d);
-ff = fopen('codigo.asm');
+ff = fopen('codigo_final.asm');
 
 while not(feof(ff))
     
@@ -52,12 +52,12 @@ while not(feof(ff))
     case 'andlw'
         d(NumberLn+1,:) = ['000011',char(C(1,2)),char(C(1,3)),'00'];
     case 'clrf'
-        d(NumberLn+1,:) = ['000100',char(C(1,2)),'000'];
+        d(NumberLn+1,:) = ['000100',char(C(1,2)),'100'];
     case 'comf'
         d(NumberLn+1,:) = ['000101',char(C(1,2)),char(C(1,3)),'00'];
     case 'cpfseq'
         d(NumberLn+1,:) = ['000110',char(C(1,2)),'000'];
-    case 'cpfsgt '
+    case 'cpfsgt'
         d(NumberLn+1,:) = ['000111',char(C(1,2)),'000'];
     case 'cpfslt'
         d(NumberLn+1,:) = ['001000',char(C(1,2)),'000'];
@@ -75,12 +75,12 @@ while not(feof(ff))
         d(NumberLn+1,:) = ['001110',char(C(1,2)),char(C(1,3)),'00'];
     case 'iorwf'
         d(NumberLn+1,:) = ['001111',char(C(1,2)),char(C(1,3)),'00'];
-    case 'iorlw '
+    case 'iorlw'
         d(NumberLn+1,:) = ['010000',char(C(1,2)),'000'];
     case 'movf'
         d(NumberLn+1,:) = ['010001',char(C(1,2)),char(C(1,3)),'00'];
     case 'movwf'
-        d(NumberLn+1,:) = ['010010',char(C(1,2)),'000'];
+        d(NumberLn+1,:) = ['010010',char(C(1,2)),'100'];
     case 'movlw'
         d(NumberLn+1,:) = ['010011',char(C(1,2)),'000'];
     case 'mulwf'
@@ -94,14 +94,14 @@ while not(feof(ff))
     case 'rrncf'
         d(NumberLn+1,:) = ['011000',char(C(1,2)),char(C(1,3)),'00'];
     case 'setf'
-        d(NumberLn+1,:) = ['011001',char(C(1,2)),'000'];
+        d(NumberLn+1,:) = ['011001',char(C(1,2)),'100'];
     case 'subwf'
         d(NumberLn+1,:) = ['011010',char(C(1,2)),char(C(1,3)),'00'];
     case 'sublw'
         d(NumberLn+1,:) = ['011011',char(C(1,2)),'000'];
     case 'swapf'
         d(NumberLn+1,:) = ['011100',char(C(1,2)),char(C(1,3)),'00'];
-    case 'tstfsz '
+    case 'tstfsz'
         d(NumberLn+1,:) = ['011101',char(C(1,2)),'000'];
     case 'xorwf'
         d(NumberLn+1,:) = ['011110',char(C(1,2)),char(C(1,3)),'00'];
@@ -124,7 +124,7 @@ while not(feof(ff))
     case 'nop'
         d(NumberLn+1,:) = ['100111','00000000000'];
     case 'retlw'
-        d(NumberLn+1,:) = ['101000','00000000000'];
+        d(NumberLn+1,:) = ['101000',char(C(1,2)),'000'];
     case 'return'
         d(NumberLn+1,:) = ['101001','00000000000'];
     case 'reset'
@@ -152,20 +152,20 @@ end;
 fid = fopen('ROM.vhd','w');
 
 % Encabezado de la descripcion
-fprintf(fid,'-- Codigo de programa\n');
+fprintf(fid,'-- Codigo de Microcontrolador\n');
 fprintf(fid,'--\n');
 fprintf(fid,'\n');
 fprintf(fid,'LIBRARY IEEE;\n');
 fprintf(fid,'USE IEEE.std_logic_1164.all;\n');
 fprintf(fid,'\n');
-fprintf(fid,'Entity ROM_Prog is\n');
+fprintf(fid,'Entity ROM is\n');
 fprintf(fid,'   port( \n');
 fprintf(fid,'      A : in  std_logic_vector(%d downto 0);\n',M-1);
 fprintf(fid,'      D : out std_logic_vector(%d downto 0)\n',n-1);
 fprintf(fid,'      );\n');
-fprintf(fid,'   end ROM_Prog;\n');
+fprintf(fid,'   end ROM;\n');
 fprintf(fid,'\n');
-fprintf(fid,'Architecture Tabla of ROM_Prog is\n');
+fprintf(fid,'Architecture Behavioral of ROM is\n');
 fprintf(fid,'Begin\n');
 fprintf(fid,'    process(A)\n');
 fprintf(fid,'    begin\n');
@@ -179,10 +179,10 @@ for i=1:NumberLn
     for j=1:17
         fprintf(fid,'%c',d(i,j));
     end;
-    fprintf(fid,'" -- ardumendo %d \n',i);
+    fprintf(fid,'"; -- instrucción  %d \n',i-1);
 end;
 fprintf(fid,'            when others => D <= "00000000000000000";\n');
 fprintf(fid,'        end case;\n');
 fprintf(fid,'   end process;\n');
-fprintf(fid,'end Tabla;\n');
+fprintf(fid,'end Behavioral;\n');
 fclose(fid);
